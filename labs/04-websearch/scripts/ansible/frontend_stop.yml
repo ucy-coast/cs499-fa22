@@ -1,0 +1,13 @@
+---
+- name: Stop frontend server
+  hosts:
+    - frontend
+  tasks:
+  - name: Get the PID of running process
+    ignore_errors: yes
+    shell: "ps -few | grep -v grep | grep -w tomcat | awk '{print $2}'"
+    register: running_processes
+  - name: Kill running processes
+    ignore_errors: yes
+    shell: "kill {{ item }}"
+    with_items: "{{ running_processes.stdout_lines }}"

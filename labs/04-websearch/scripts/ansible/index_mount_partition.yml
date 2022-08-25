@@ -1,0 +1,30 @@
+---
+- name: Mount index partitions 
+  hosts: 
+    - index
+  vars:
+    instance_number: "{{ socket | default(0) }}"
+    cpu_node: "{{ socket | default(0) }}"
+  tasks:
+  - include: partition.yml
+  - name: Get partition index parts 
+    script: partition_index.sh {{ index_parts_count }} {{ partition_count }} {{ partition_id }} {{ index_parts_src_dir }}
+    register: partition_parts
+  - name: Ensure partition tmpfs mountpoint exists
+    file:
+      path: "{{ partition_dir }}"
+      state: directory
+  - name: Mount partition tmpfs
+    mount:
+      path: "{{ partition_dir }}"
+      src: tmpfs
+      fstype: tmpfs
+      opts: "size=8g,mpol=bind:{{ cpu_node }}"
+      state: mounted
+      fstab: /tmp/tmp.fstab
+    become: yes
+  - name: "Copy partition index parts to partition tmpfs"
+    shell: "mkdir -p {{ partition_dir }}/indexes/{{ item }}; cp -r {{ index_parts_src_dir }}/{{ item }}/* {{ partition_dir }}/indexes/{{ item }}"
+    loop: "{{ partition_parts.stdout_lines }}"
+    args:
+      warn: false

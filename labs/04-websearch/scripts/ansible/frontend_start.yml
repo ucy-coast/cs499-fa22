@@ -1,0 +1,23 @@
+---
+- name: Start frontend server
+  hosts:
+    - frontend
+  vars:
+    instance_number: "{{ socket | default(0) }}"
+    cpu_node: "{{ socket | default(0) }}"
+    java_home: "{{ websearch_home }}/jdk1.7.0_11"
+    tomcat_home: "{{ websearch_home }}/tomcat-{{ instance_number }}"
+    tomcat_http_port: "{{ 8080 + instance_number | int }}"
+  tasks:
+  - name: Remove log file
+    file:
+      path: "{{ tomcat_home }}/logs/catalina.out"
+      state: absent
+  - name: Start tomcat
+    shell: "numactl --cpunodebind={{ cpu_node }} {{ tomcat_home }}/bin/startup.sh"
+    environment:
+      JAVA_HOME: "{{ java_home }}"
+    async: 10000 
+    poll: 0
+  - name: Wait for tomcat to start
+    wait_for: port={{ tomcat_http_port }}

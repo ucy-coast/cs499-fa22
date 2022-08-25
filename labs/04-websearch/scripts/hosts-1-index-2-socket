@@ -1,0 +1,12 @@
+[all:vars]
+websearch_home=/local/websearch
+index_parts_src_dir=/mydata/4GBindex/indexes
+index_parts_count=8
+index_partition_base_dir=/local/websearch/test_out
+index_server_threads_count=16
+
+[frontend]
+node1
+
+[index]
+node2-socket0 ansible_host=node2

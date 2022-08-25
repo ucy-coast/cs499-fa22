@@ -1,0 +1,15 @@
+---
+- name: Unmount index partitions 
+  hosts: 
+    - index
+  tasks:
+  - include: partition.yml
+  - name: Unmount partition tmpfs
+    mount:
+      path: "{{ partition_dir }}"
+      src: tmpfs
+      fstype: tmpfs
+      opts: "size=8g,mpol=bind:0"
+      state: unmounted
+      fstab: /tmp/tmp.fstab
+    become: yes
