@@ -171,7 +171,7 @@ To start a new experiment:
    Your experiment will **terminate automatically after a few hours**. When the experiment terminates, you will **lose anything on disk** on the nodes, so be sure to copy off anything important early and often. You can use the **Extend** button to submit a request to hold it longer, or the **Terminate** button to end it early.
 
 <figure>
-  <p align="center"><img src="figures/cloudlab-multi-node-cluster-listview.png" width="60%"></p>
+  <p align="center"><img src="figures/cloudlab-multi-node-cluster-listview-singlenode.png" width="60%"></p>
   <figcaption><p align="center">Figure. List View</p></figcaption>
 </figure>
 
