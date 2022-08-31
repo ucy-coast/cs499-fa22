@@ -154,7 +154,7 @@ To start a new experiment:
    When you click the **Finish** button, CloudLab will start preparing your experiment by selecting nodes, installing software, etc. as described in the profile. What’s going on behind the scenes is that on one (or more) of the machines in one of the CloudLab clusters, a disk is being imaged, VMs and/or physical machines booted, accounts created for you, etc. This process usually takes a couple of minutes.
 
 <figure>
-  <p align="center"><img src="figures/cloudlab-multi-node-cluster-provisioning.png" width="60%"></p>
+  <p align="center"><img src="figures/cloudlab-multi-node-cluster-provisioning-singlenode.png" width="60%"></p>
   <figcaption><p align="center">Figure. Deployment</p></figcaption>
 </figure>
    
@@ -177,7 +177,7 @@ To start a new experiment:
 
 ## Use your experiment
 
-Secure Shell (ssh) is the standard way to connect to a remote machine’s shell. Since you gave CloudLab an ssh public key as part of account creation, you can log in using the ssh client on your laptop or desktop. `node0` is a good place to start. Go to the **List View** on the experiment page to get a full command line for the ssh command and use it to ssh into `node0`. If you are unfamiliar with using an ssh client, we recommend taking a look at this [guide](docs/ssh/README.md). 
+Secure Shell (ssh) is the standard way to connect to a remote machine’s shell. Since you gave CloudLab an ssh public key as part of account creation, you can log in using the ssh client on your laptop or desktop. `node0` is a good place to start. Go to the **List View** on the experiment page to get a full command line for the ssh command and use it to ssh into `node0`. If you are unfamiliar with using an ssh client, we recommend taking a look at this [guide](../notes/connect-ssh/README.md). 
 
 ```
 $ ssh -p 22 alice@amd198.utah.cloudlab.us
