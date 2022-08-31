@@ -1,0 +1,86 @@
+---
+- name: Configure webserver with nginx
+  hosts: webservers
+  vars:
+    web_root: "{{ ansible_env.HOME }}/static-site"
+    worker_processes: 1
+    worker_connections: 16
+  tasks:
+    - name: install nginx
+      apt: 
+        name: nginx 
+        update_cache: yes
+      become: yes
+    
+    - name: limit ngnix number of workers
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^worker_processes'
+        line: "worker_processes {{ worker_processes }};"
+      become: yes
+
+    - name: limit ngnix connections per worker
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^\tworker_connections'
+        line: "\tworker_connections {{ worker_connections }};"
+      become: yes
+
+    - name: copy the nginx config file
+      template:
+        src: static_site.cfg.j2
+        dest: /etc/nginx/sites-available/static_site.cfg
+      become: yes
+ 
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/static_site.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      become: yes
+
+    - name: ensure {{ web_root }} dir exists
+      file:
+        path: "{{ web_root }}"
+        state: directory
+
+    - name: copy index.html
+      template:
+        src: index.html.j2
+        dest: "{{ web_root }}/index.html"
+      become: yes
+ 
+    - name: restart nginx
+      service: 
+        name: nginx 
+        state: restarted
+      become: yes
+
+- name: Configure load balancer with nginx
+  hosts: loadbalancer
+  vars:
+    webservers: "{{ groups['webservers'] }}"
+  tasks:
+    - name: install nginx
+      apt: 
+        name: nginx 
+        update_cache: yes
+      become: yes
+    
+    - name: copy the nginx config file
+      template:
+        src: load-balancer.cfg.j2
+        dest: /etc/nginx/conf.d/load-balancer.conf
+      become: yes
+    
+    - name: remove 
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      become: yes
+
+    - name: restart nginx
+      service: 
+        name: nginx 
+        state: restarted
+      become: yes
