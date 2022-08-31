@@ -1,9 +1,13 @@
-# 
+# Introduction to Linux
 
 ## Table of Contents
 
 - [Getting Started](#getting-started)
 - [Navigating](#navigating)
+- [Manipulating files and directories](#manipulating-files-and-directories)
+- [Uploading/downloading/editing files ](#uploadingdownloadingediting-files)
+- [Beyond the basics](#beyond-the-basics)
+- [Common pitfalls](#common-pitfalls)
 
 ## Getting Started
 
@@ -625,15 +629,34 @@ file to `hostname.txt`.
 
 [Back to Top](#table-of-contents)
 
-
 ## Uploading/downloading/editing files
-
-FIXME: 
 
 ### Uploading/downloading files
 
-To transfer files from and to the HPC, see the section about transferring files in chapter 3 of the
-HPC manual.
+
+SCP (secure copy) is a command-line utility that allows you to securely copy files and directories between two locations.
+
+To copy a file from a local to a remote system run the following command:
+
+```
+scp file.txt remote_username@10.10.0.2:/remote/directory
+```
+
+Where `file.txt` is the name of the file we want to copy, `remote_username` is the user on the remote server, `10.10.0.2` is the server IP address. The `/remote/directory` is the path to the directory you want to copy the file to. If you don’t specify a remote directory, the file will be copied to the remote user home directory.
+
+To copy a directory from a local to remote system, use the `-r` option:
+
+```
+scp -r /local/directory remote_username@10.10.0.2:/remote/directory
+```
+
+To copy a file from a remote to a local system, use the remote location as a source and local location as the destination.
+
+For example to copy a file named `file.txt` from a remote server with IP `10.10.0.2` run the following command:
+
+```
+scp remote_username@10.10.0.2:/remote/file.txt /local/directory
+```
 
 ### Symlinks for data/scratch
 
@@ -642,7 +665,7 @@ our data and VO storage. To facilitate this we will create symlinks to them in o
 respective storages:
 
 ```
-cd $HOME
+$ cd $HOME
 $ ln -s $VSC_SCRATCH scratch
 $ ln -s $VSC_DATA data
 $ ls -l scratch data
