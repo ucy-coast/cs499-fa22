@@ -6,8 +6,6 @@ This lab walks you through the CloudLab registration process and shows you how t
 
 Most importantly, it introduces our policies on using CloudLab that will be enforced throughout the semester.
 
-Along the way it introduces you to some basic DevOps and Linux stuff.
-
 ## Introduction
 
 CloudLab is a "meta-cloud"—that is, it is not a cloud itself; rather, it is a facility for building clouds. It provides bare-metal access and control over a substantial set of computing, storage, and networking resources; on top of this platform, users can install standard cloud software stacks, modify them, or create entirely new ones.

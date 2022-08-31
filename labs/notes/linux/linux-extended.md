@@ -1127,7 +1127,7 @@ If you are expecting to copy large files to or from remote locations, note that 
 
 As we discussed previously, Linux has a hierarchical filesystem. The files and directories form a tree structure, in accordance with the [Filesystem Hierarchy Standard (FHS)](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard). The topmost directory is the root directory `/` and all directories are contained within or below this directory in the hierarchy. There are several directories within the root directory – called subdirectories – that are generated upon installation of a Linux distribution. Many of these are used exclusively by the system. There are also some generated for use by users, where subdirectories can be created without elevated permissions. A sample portion of this structure is depicted in Figure 1.
 
-![Figure 1: A sample portion of the filesystem structure tree](filesystem_structure.jpg)
+![Figure 1: A sample portion of the filesystem structure tree](linux-filesystem_structure.jpg)
 
 The FHS includes descriptions of the core directories in the hierarchy, causing this structure to be relatively standard across Linux systems. Table 1 provides a list of the major subdirectories of the root directory `/`. There is no need to remember the purpose of every directory unless you are working at a lower level within a Linux system. Rather, this table should give you an idea of the basic layout of a Linux filesystem, and possibly serve as a useful reference in the future.
 
