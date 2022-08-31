@@ -129,7 +129,7 @@ To start a new experiment:
    Once you select the cluster, click **Next** to continue.  
 
 <figure>
-  <p align="center"><img src="figures/cloudlab-multi-node-cluster-finalize.png" width="60%"></p>
+  <p align="center"><img src="figures/cloudlab-multi-node-cluster-finalize-singlenode.png" width="60%"></p>
   <figcaption><p align="center">Figure. Finalize</p></figcaption>
 </figure>
 
