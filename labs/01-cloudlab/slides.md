@@ -208,58 +208,24 @@ For more information: https://docs.cloudlab.us/hardware.html
 
 --- 
 
-# Register Cloudlab Account
+# CloudLab Hands On
 
-- https://www.cloudlab.us/signup.php
+- Register an account
+- Launch an instance
+- Connect via SSH
+
+---
+
+# Registering a Cloudlab account
+
+---
+
+# Registering a Cloudlab account
+
+- Visit https://www.cloudlab.us/signup.php
+- You will need to upload an SSH public key
 
 ![w:600 center](figures/cloudlab-register-account.png)
-
----
-
-# Launch A Cloudlab Instance 
-
-### “Start Experiment” (the most common)
-- Decide your instance type and check its availability
-https://www.cloudlab.us/resinfo.php
-- Name your experiments with CloudLabLogin-ExperimentName
-  - Naming scheme prevents conflicts caused when everyone picks random names 
-- The default expiration time is 16 hours.
-   - But extensions can be requested.
-- Once expired, old data are discarded.
-   - Backup data. Write a script to rebuild environment automatically.
-   - Or create your own disk image (snapshot).
-
----
-
-# Launch A Cloudlab Instance 
-
-### “Reserve Nodes”
-- For a longer machine time, e.g., one week.
-- Most reservations need cloudlab administrator’s approval.
-
----
-
-# Policies on using CloudLab resources
-
-**Be a good Citizen!**
-
-**Do not leave your CloudLab experiment instantiated unless you are using it!**
-
-**Stick to your own resources and do not access another member's resources.**
-
----
-
-# Demo
-
-- Launch an instance
-- Customize cloudlab profile
-- Create disk image
-- SSH example
-- Use web serial console
-
----
-
-# SSH
 
 ---
 
@@ -286,7 +252,6 @@ https://www.cloudlab.us/resinfo.php
 - The server must have sshd installed and running or you will not be able to connect using SSH
 
   - CloudLab machines are configured with sshd installed
-
 
 ---
 
@@ -417,7 +382,7 @@ For reference, SSH supports agent forwarding, where you can ssh to Machine1, log
 ---
 
 
-# Add Public Key to CloudLab
+# Adding Public Key to CloudLab
 
 <div class="columns">
 <div class="center">
@@ -448,101 +413,45 @@ To an existing account
 
 ---
 
-# Linux
-
-## What, Who, When, Where & Why
----
-
-# What is Linux
-
-- Unix-like computer operating system assembled under the model of free and open-source software development and distribution.
-- These operating systems share the Linux kernel.
-  - Typically have the GNU utilities
-- Comes in several “distributions” to serve different purposes.
-
----
-# What is Linux
-
-<div class="columns">
-<div>
-<h3>Bird’s eye view</h3>
-</div>
-
-<div>
-
-![h:500 center](figures/linux-ring.png)
-
-</div>
-
-</div>
-
----
-# Who is Linux
-
-<div class="columns">
-<div>
-
-![h:300 center](figures/linux-torvalds.jpg)
-
-Linux is an O/S core originally written by Linus Torvalds. Now almost 10,000 developers including major technology companies like Intel and IBM.
-</div>
-
-<div>
-
-![h:300 center](figures/linux-stallman.jpg)
-
-A set of programs written by Richard Stallman and others. They are the GNU utilities.
-</div>
-</div>
+# Launching a Cloudlab instance 
 
 ---
 
-# When is Linux?
+# Launching a CloudLab instance
 
-<div class="img-overlay-wrap">
-   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 100">
-   <defs>
-      <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-      refX="0" refY="3.5" orient="auto">
-         <polygon points="0 0, 10 3.5, 0 7" />
-      </marker>
-   </defs>
-   <text x="20" y="35" class="tiny">1991</text>
-   <line x1="40" y1="45" x2="120" y2="75" stroke="#000" 
-   stroke-width="2" marker-end="url(#arrowhead)" />
-   </svg>
-   <img align="right" width="70%" src="figures/linux-family-tree.jpg">
-</div>
+### “Start Experiment” (the most common)
 
----
-# Where is Linux
-- World Wide Web
-   - 67% of the world’s web-servers run Linux (2016)
-- Research/High-Performance Compute
-   - Google, Amazon, NSA, 100% of TOP500 Super-computers.
-- Modern Smartphones and devices
-   - The Android phone
-   - Amazon Kindle
-   - Smart TVs/Devices
+- Decide your instance type and check its availability
+https://www.cloudlab.us/resinfo.php
+- Name your experiments with CloudLabLogin-ExperimentName
+  - Naming scheme prevents conflicts caused when everyone picks random names 
+- The default expiration time is 16 hours.
+   - But extensions can be requested.
+- Once expired, old data are discarded.
+   - Backup data. Write a script to rebuild environment automatically.
+   - Or create your own disk image (snapshot).
 
 ---
 
-# Why Linux
+# Launching A Cloudlab Instance 
 
-- Free and open-source.
-- Powerful for research datacenters
-- Personal for desktops and phones
-- Universal
-- Community (and business) driven.
+### “Reserve Nodes”
+- For a longer machine time, e.g., one week.
+- Most reservations need cloudlab administrator’s approval.
 
 ---
-# Connecting
 
-## Let’s use Linux
- 
+# Policies on using CloudLab resources
+
+**Be a good Citizen!**
+
+**Do not leave your CloudLab experiment instantiated unless you are using it!**
+
+**Stick to your own resources and do not access another member's resources.**
+
 ---
 
-![h:400 center](figures/linux-connect.png)
+# Connecting via SSH
 
 ---
 
@@ -555,7 +464,7 @@ A set of programs written by Richard Stallman and others. They are the GNU utili
 Remote Connections: <br>Secure SHell <br>(SSH)
 </div>
 
-![h:300 center](figures/linux-connect-ssh.png)
+![h:300 center](../notes/linux/figures/linux-connect-ssh.png)
 
 </div>
 
@@ -565,7 +474,7 @@ Remote Connections: <br>Secure SHell <br>(SSH)
 Remote Graphics: <br>X-Windowing <br>(X, X-Win)
 </div>
 
-![h:300 center](figures/linux-connect-xwin.png)
+![h:300 center](../notes/linux/figures/linux-connect-xwin.png)
 
 </div>
 
@@ -575,7 +484,7 @@ Remote Graphics: <br>X-Windowing <br>(X, X-Win)
 Data Transfer: <br>Secure File Transfer Protocol <br>(SFTP)
 </div>
 
-![h:300 center](figures/linux-connect-sftp.png)
+![h:300 center](../notes/linux/figures/linux-connect-sftp.png)
 
 </div>
 
@@ -664,19 +573,48 @@ You need software that emulates an “X” terminal and that connects using the 
 
 ---
 
-# Connecting
+# Getting SSH command from List View
 
-- Use your CloudLab account
+![h:500 center](figures/cloudlab-multi-node-cluster-listview-singlenode.png)
+
+---
+
+# Connecting via SSH (Linux/MacOS)
+
+To connect via SSH:
+
+```
+$ ssh -p 22 alice@amd198.utah.cloudlab.us
+```
+
+To enable agent forwarding, add `-A`:
+
+```
+$ ssh -p 22 -A alice@amd198.utah.cloudlab.us
+```
+
+---
+
+# Connecting via SSH (Windows PuTTY)
+
+Use the `username@hostname` part from the SSH command:
+
+```
+alice@amd198.utah.cloudlab.us
+```
+
+![bg width:80% right:50% hue-rotate:355deg](../notes/connect-ssh/figures/putty-ssh-1.png)
 
 ---
 
 # Linux Interaction
+
 ## Shell, Prompt, Commands and System Use
  
 ---
 
 # Linux: The Shell
-![bg width:80% right:33% hue-rotate:355deg](figures/linux-connect-ssh.png)
+![bg width:80% right:33% hue-rotate:355deg](../notes/linux/figures/linux-connect-ssh.png)
 
 - Program that *interprets commands* and sends them to the OS
 - Provides:
@@ -692,7 +630,7 @@ You need software that emulates an “X” terminal and that connects using the 
 
 # Linux: The “prompt”
 
-![h:300 center](figures/linux-prompt.png)
+![h:300 center](../notes/linux/figures/linux-prompt.png)
 <br>
 <center> ( In Linux “ ~ ” is a shorthand for your home directory. ) </center>
 
@@ -700,7 +638,7 @@ You need software that emulates an “X” terminal and that connects using the 
 
 # Linux: Command Basics
 
-![h:80 center](figures/linux-command-basics.png)
+![h:80 center](../notes/linux/figures/linux-command-basics.png)
 
 - <span style="color:blue">Command: Command/program that does one thing</span>
 
@@ -878,775 +816,3 @@ HOME=/usr3/bustaff/cjahnke
    - Just type the command `help`
    - Or `man bash`
  
----
-
-# On using man with less
-
-The `man` command outputs to a pager called `less`, which supports many ways of scrolling through text:
-
-```bash
-Space, f    # page forward
-b           # page backward
-<           # go to first line of file
->           # go to last line of file
-/           # search forward (n to repeat)
-?           # search backward (N to repeat)
-h           # display help
-q           # quit help
-```
-
----
-
-# I/O Redirection
-
----
-
-# I/O redirection with pipes
-
-- Many Linux commands print to “standard output”, which defaults to the terminal screen. The `|` (pipe) character can be used to divert or “redirect” output to another program or filter.
-
-   ```bash
-   w                    # show who's logged on
-
-   w | less             # pipe into the 'less' pager
-   w | grep 'tuta'      # pipe into grep, print lines containing 'tuta' 
-   w | grep -v 'tuta'   # print only lines not containing ‘tuta’
-
-   w | grep 'tuta' | sed s/tuta/scholar/g
-                        # replace all 'tuta' with 'scholar'
-   ```
-
----
-
-# More examples of I/O redirection
-
-- Try the following (use up arrow to avoid retyping each line):
-
-   ```bash 
-   w | wc                              # count lines
-   w | cut –d ' ' –f1 | sort           # sort users
-   w | cut –d ' ' –f1 | sort | uniq    # eliminate duplicates
-   ```
-- We can also redirect output into a file:
-   ```bash
-   w | cut –d ' ' –f1 | sort | uniq > users
-   ```
-- Note that 'awk' can be used instead of 'cut':
-   ```bash
-   w | awk '{print $1;}' | sort | uniq > users
-   ```
-- Quiz:
-   - How might we count the number of distinct users currently logged in? 
-   For extra credit, how can we avoid over-counting by 2? (Hint: use `tail`.)
-
----
-
-# The Filesystem
-
-- The Linux File System
-- The structure resembles an upside-down tree
-- Directories (a.k.a. folders) are collections of files and other directories.
-- Every directory has a parent except for the root directory.
-- Many directories have subdirectories.
-
- ![h:200 center](figures/linux-filesystem.webp)
-
----
-
-![h:600 center](figures/linux-filesystem-hierarchy-deep.png)
-
----
-
-# Navigating the File System
-
-Essential navigation commands:
-```bash
-pwd   # print current directory
-ls    # list files
-cd    # change directory
-```
-
----
-
-# Navigating the File System
-
-We use *pathnames* to refer to files and directories in the Linux file system.
-
-- There are two types of pathnames:
-   - *Absolute* – The full path to a directory or file; begins with `/`
-   - *Relative* – A partial path that is relative to the current working directory;
-   does not begin with `/`
-
----
-
-# Navigating the File System
-
-Special characters interpreted by the shell for filename expansion:
-
-```bash
-~        # your home directory (e.g., /usr1/tutorial/tuta1) 
-.        # current directory
-..       # parent directory
-*        # wildcard matching any filename
-?        # wildcard matching any character
-TAB      # try to complete (partially typed) filename
-```
-
----
-
-# Navigating the File System
-
-Examples:
-
-```bash
-cd /usr/local           # Change directory to /usr/local/lib
-cd ~                    # Change to home directory (could just type 'cd')
-pwd                     # Print working (current) directory
-cd ..                   # Change directory to the “parent” directory 
-cd /                    # Change directory to the “root”
-ls –d pro*              # Listing of only the directories starting with 'pro'
-```
-
----
-
-# The ls Command
-
-Useful options for the “ls” command:
-
-```bash
-ls -a       # List all files, including hidden files beginning with a '.' 
-ls -ld *    # List details about a directory and not its contents
-ls -F       # Put an indicator character at the end of each name 
-ls –l       # Simple long listing
-ls –lR      # Recursive long listing
-ls –lh      # Give human readable file sizes
-ls –lS      # Sort files by file size
-ls –lt      # Sort files by modification time (very useful!)
-```
-
----
-
-# Some Useful File Commands
-
-```bash
-cp [file1] [file2]         # copy file
-mkdir [name]               # make directory
-rmdir [name]               # remove (empty) directory
-mv [file] [destination]    # move/rename file
-rm [file]                  # remove (-r for recursive)
-file [file]                # identify file type
-less [file]                # page through file
-head -n N [file]           # display first N lines
-tail -n N [file]           # display last N lines
-ln –s [file] [new]         # create symbolic link
-cat [file] [file2...]      # display file(s)
-tac [file] [file2...]      # display file in reverse order 
-touch [file]               # update modification time
-od [file]                  # display file contents, esp. binary
-```
-
----
-
-# Manipulating files and directories
-
-Examples:
-
-```bash 
-cd                                     # The same ascd ~
-mkdir test
-cd test
-echo 'Hello everyone' > myfile.txt
-echo 'Goodbye all' >> myfile.txt
-less myfile.txt
-mkdir subdir1/subdir2                  # Fails. Why?
-mkdir -p subdir1/subdir2               # Succeeds
-mv myfile.txt subdir1/subdir2
-cd ..
-rmdir test                             # Fails. Why?
-rm –rf test                            # Succeeds
-```
-
----
-
-# Symbolic links
-
-- Sometimes it is helpful to be able to access a file from multiple locations within the hierarchy. On a Windows system, we might create a "shortcut". On a Linux system, we can create a symbolic link:
-
-   ```bash
-   mkdir foo         # make foo directory
-   touch foo/bar     # create empty file
-   ln –s foo/bar .   # create link in current dir
-   ```
-
----
-
-# Finding a needle in a haystack
-
-- The `find` command has a rather unfriendly syntax, but can be exceedingly helpful for locating files in heavily nested directories.
-- Examples:
-   ```bash
-   find ~ -name bu –type d    # search for 'bu' directories in ~
-   find . –name my-file.txt   # search for my-file.txt in .
-   find ~ -name '*.txt'       # search for '*.txt' in ~
-   ```
-
-- Quiz:
-   - Can you use find to locate a file called `needle` in your haystack directory?
-   - Extra credit: what are the contents of the `needle` file?
-
-
----
-
-# Processes & Job Control
-
----
-
-# Processes and Job Control
-- As we interact with Linux, we create numbered instances of running programs called *processes*. You can use the `ps` command to see a listing of your processes (and others!). To see a long listing, for example, of all processes on the system try:
-
-   ```bash
-   [username@scc1 ~]$ ps -ef
-   ```
-
-- To see all the processes owned by you and other members of the class, try:
-
-   ```
-   [username@scc1 ~]$ ps -ef | grep tuta
-   ```
-
----
-# File permissions
-
-- Every file has a set of permissions, an owner user, and an owning group
-
-- Permission format
-
-![h:300 center](figures/linux-permissions.png)
-
----
-
-# Viewing/changing permissions
-
-- View permissions:
-
-   ```bash
-   ls -l
-   ```
-
-- Change permissions with chmod:
-
-   ```bash
-   chmod {ugo}{+-}{rwx} file
-   ```
-   
-   Example:
-   
-   ```bash
-   chmod o+rx myfile
-   ```
-
-- Change owner with chown:
-
-   ```bash
-   chown <user>:<group> <file>
-   ```
----
-
-# Processes and Job control
-
-Use `top` to see active processes.
-
-```bash
-Tasks: 408 total,   1 running, 407 sleeping,   0 stopped,   0 zombie
-Cpu(s):  0.3%us,  0.1%sy,  0.0%ni, 99.6%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
-Mem:  99022756k total, 69709936k used, 29312820k free,   525544k buffers
-Swap:  8388604k total,        0k used,  8388604k free, 65896792k cached
-
-  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
- 7019 root      20   0  329m 137m 4852 S  4.0  0.1 217:01.56 sge_qmaster
-38246 isw       20   0 88724 2764 1656 S  0.7  0.0   0:01.28 sshd
-41113 cjahnke   20   0 13672 1512  948 R  0.7  0.0   0:00.03 top
- 2324 root      20   0     0    0    0 S  0.3  0.0   0:21.82 kondemand/2
- 7107 nobody    20   0 89572  10m 2400 S  0.3  0.0   2:18.05 gmond
-27409 theavey   20   0 26652 1380  880 S  0.3  0.0   0:34.84 tmux
-    1 root      20   0 25680 1604 1280 S  0.0  0.0   0:05.74 init
-    2 root      20   0     0    0    0 S  0.0  0.0   0:00.07 kthreadd
-    3 root      RT   0     0    0    0 S  0.0  0.0   0:00.89 migration/0
-    4 root      20   0     0    0    0 S  0.0  0.0   0:01.72 ksoftirqd/0
-    5 root      RT   0     0    0    0 S  0.0  0.0   0:00.00 stopper/0
-```
-
----
-
-# Foreground/background
-
-- Thus far, we have run commands at the prompt and waited for them to complete. We call this running in the *foreground*.
-- Use the `&` operator, to run programs in the *background*,
-   - Prompt returns immediately without waiting for the command to complete:
-
-   ```bash
-   [username@scc1 ~]$ mycommand & 
-   [1] 54356                                  # ← process id
-   [username@scc1 ~]$
-   ``` 
-
---- 
-
-# Process Control Practice
-
-- Let’s look at the `countdown` script, in your scripts folder for practice
- 
-   ```bash 
-   [username@scc1 ~]$ cd ~/scripts 
-   [username@scc1 ~]$ cat countdown
-   ```
-
-- Make the script executable with `chmod`:
-
-   ```bash
-   [username@scc1 ~]$ chmod +x countdown
-   ```
-
-- First, run it for a few seconds, then kill with Control-C.
-
-   ```bash
-   [username@scc1 ~]$ ./countdown 100 100
-   99
-   98
-   ^C             # ← Ctrl-C = (^C)
-   ``` 
-
----
-
-# Process control
-
-- Now, let’s try running it in the background with &:
-   
-   ```bash 
-   [username@scc1 ~]$ ./countdown 60 & 
-   [1] 54355
-   [username@scc1 ~]$
-   60
-   59
-   ```
-
-- The program’s output is distracting, so redirect it to a file:
-
-   ```bash
-   [username@scc1 ~]$ countdown 60 > c.txt &
-   [1] 54356
-   [username@scc1 ~]$
-   ```
-
----
-
-#  Process control
-
-- Type `ps` to see your countdown process.
-
-- Also, try running `jobs` to see any jobs running in the background from this bash shell.
-
-- To kill the job, use the `kill` command, either with the five-digit process id:
-
-   ```bash
-   kill 54356
-   ```
-
-- Or, you can use the job number (use `jobs` to see list) with `%`:
-
-   ```bash
-   kill %1
-   ```
- 
----
-
-# Backgrounding a running job with C-z and `bg`
-
-Sometimes you start a program, then decide to run it in the background.
-
-```bash 
-[username@scc1 scripts]$ ./countdown 200 > c.out
-^Z                                                    # ← Ctrl-Z = (^Z)
-[1]+  Stopped            ./countdown 200 > c.out
-
-[username@scc1 scripts]$ bg 
-[1]+ ./countdown 200 > c.out &
-
-[username@scc1 scripts]$ jobs
-[1]+ Running ./countdown 200 > c.out &
-
-[username@scc1 scripts]$
-```
-
----
-
-# Editors
-
----
-
-# Regular expressions
-
-Many Linux tools, such as `grep` and `sed`, use strings that describe sequences of characters. These strings are called regular expressions.
-
-Here are some examples:
-
-```bash
-^foo                 # line begins with “foo”
-bar$                 # line ends with “bar”
-[0-9]\{3\}           # 3-digit number
-.*a.*e.*i.*o.*u.*    # words with vowels in order*
-```
-
----
-
-# File Editors
-
-- nano
-   - Lightweight editor
-
-- emacs
-   - Swiss-army knife, has modes for all major languages, and can be customized
-   - Formerly steep learning curve has been reduced with introduction of menu and tool bars
-
-- vim
-   - A better version of vi (an early full-screen editor).
-   - Very fast, efficient 
-   - Steep learning curve 
-   - Popular among systems programmers
-   
----
-
-# vi/vim
-
-- vi/vim is a very popular text editor among programmers and system administrators
-- It supports many programming and scripting languages
-- Suitable for more advanced file editing
-- vi/vim has two modes:
-   1. *Text mode*: which can be enabled by typing <b>i</b> (insert) or <b>a</b> (append)
-   1. *Command mode*: which will be enabled by pressing the <b>Esc</b> key on keyboard
-
----
-
-# vi/vim: some useful commands
-
-<div class="small">
-<div class="columns">            
-<div> 
-
-|command|description
-|:------|:----------
-| `!`  | Forces the action
-| `:q` | Quit
-| `:q!` | Force quit
-| `:w` | Write
-| `:wq`| Write and quit
-| `:x`|  Write (if have changes) and quit
-
-</div>
-
-<div>
-
-|command|description
-|:------|:----------
-| `i` | Insert
-| `a` | Append
-| `x`| Delete a character
-| `y[count]y` | Yank (copy) [count] lines
-| `d[count]d`   | Cut (Delete) [count] lines
-| `p`   | Paste after the current line
-
-</div>
-
----
-
-# Basic Bash Scripting in Linux
-
----
-
-# What is Bash Script?
-
-- Bash script is an executable file contains Bash shell commands which could
-be used to automate and simplify things.
-
-- Shell script is a text file starts with (`#!`) followed by the path to the shell
-interpreter (i.e. `/bin/bash`)
-
----
-
-# A simple bash script
-
-```bash
-#!/bin/bash
-
-echo "Hello, World!"
-```
----
-
-# Running the bash script
-
-```bash
-$ ./hello.sh
-bash: ./hello.sh: Permission denied
-
-$ ls -l
--rw-r--r-- 1 alice alice 47 Nov 8 15:53 hello.sh
-
-$ chmod u+x hello.sh
-
-$ ls -l
--rwxr--r-- 1 alice alice 47 Nov 8 15:53 hello.sh
-
-$ ./hello.sh
-Hello, World!
-```
-
----
-
-# For loops
-
-```bash
-#!/bin/bash
-for i in 1 2 3 4 5 6 7 8 9 10; do
-   echo Count: ${i}
-done
-```
-
-### Alternative approach using `seq`
-
-```bash
-for i in `seq 1 10`; do
-   echo Count: ${i}
-done
-```
-
-- Back ticks ( ` ) tell bash to execute the command in the ticks
-- `seq 1 10` gives a list from 1 to 10
-
----
-
-# `*`  wildcard in for loop
-
-Perform some operation on every file in the directory:
-
-```bash
-for file in *.pdf; do
-   pdftohtml ${file}
-done
-```
-- `pdftohtml` is a command that converts a pdf file to html
-
----
-
-# Control flow
-
-```bash
-#!/bin/bash
-
-a=1
-b=2
-
-if [[ $a -gt $b ]]
-then
-    echo $a is greater than $b
-elif [[ $a -lt $b ]]
-then
-    echo $a is less than $b
-elif [[ $a -eq $b ]]
-then
-    echo $a is equal to $b
-else
-    echo "unknown condition"
-fi
-```
-
----
-
-# Git and GitHub
-
----
-
-# Demystifying Git and GitHub
-
-*Git* is the software that allows us to do version control
-
-- Git tracks changes to your source code so that you don’t lose any history of your project
-
-*Github* is an online platform where developers host their source code (and can share it the world)
-
-- You can host remote repositories on https://github.com/
-- You edit and work on your content in your local repository on your computer, and then you send your changes to the remote
-
----
-
-# Why you should use Git
-
-To be kind to yourself
-
-To be kind to your collaborators
-
-To ensure your work is reproducible
-
-## Spillover benefits
-
-👩‍🔬 📐 It imposes a certain discipline to your programming.
-
-🤓 🔥 You can be braver when you code: if your new feature breaks, you can revert back to a version that worked!
-
----
-
-# Workflow
-
-![h:500 center](figures/git-remote-local.png)
-
----
-# Workflow
-
-- Clone the repo
-
-   ```bash
-   git clone https://github.com/walice/git-tutorial.git
-   ```
-
-- Work on `penguins.R`
-
-- Stage your files
-
-   ```bash
-   git add .
-   ```
-
-- Commit your changes
-
-   ```bash
-   git commit -m "Add example code"
-   ```
-
-- Push your changes
-
-   ```bash
-   git push
-   ```
-
----
-
-# More command line tips
-
----
-
-# Tell Git who you are
-
-As a first-time set up, you need to tell Git who you are.
-
-```bash
-git config --global user.name "Your name"
-git config --global user.email "alice@example.com"
-```
-
----
-
-# git status
-
-Use this to check at what stage of the workflow you are at
-
-- You have made some local modifications, but haven't staged your changes yet
-
-```bash
-git status
-```
-
-```bash
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-         modified:   penguins.R
-no changes added to commit (use "git add" and/or "git commit -a")
-```
-
----
-
-# git pull
-
-Use this to fetch changes from the remote and to merge them in to your local repository
-
-- Your collaborators have been adding some awesome content to the repository, and you want to fetch their changes from the remote and update your local repository
-
-```bash
-git pull
-```
-
-- What this is doing under-the-hood is running a git fetch and then git merge.
-
-
----
-
-# Adding and ignoring files
-
-To stage specific files in your repository, you can name them directly
-
-```bash
-git add penguins.R other-script.R
-```
-
-or you can add all of them at once
-
-```bash
-git add .
-```
-
-You might want to not track certain files in your local repository, e.g., sensitive files such as credentials. But it might get tedious to type out each file that you do want to include by name.
-
-Use a `.gitignore` file to specify files to always ignore.
-
-Create a file called `.gitignore` and place it in your repo. The content of the file should include the names of the files that you want Git to not track.
-
----
-
-# git log
-
-Use this to look at the history of your repository.
-
-Each commit has a specific hash that identifies it.
-
-git log
-commit af58f79bfa4301643025dd6c8767e65349cf407a
-Author: Name <Email address>
-Date:   DD-MM-YYYY
-    Add penguin script
-You can also find this on GitHub, by going to github.com/user-name/repo-name/commits.
-
-You can go back in time to a specific commit, if you know its reference.
-
----
-
-# Undoing mistakes
-
-Imagine you did some work, committed the changes, and pushed them to the remote repo. But you'd like to undo those changes.
-
-Running git revert is a "soft undo".
-
-Say you added some plain text by mistake to penguins.R. Running git revert will do the opposite of what you just did (i.e., remove the plain text) and create a new commit. You can then git push this to the remote.
-
-```bash
-git revert <hash-of-the-commit-you-want-to-undo>
-git push
-```
-
----
-# Undoing mistakes
-
-git revert is the safest option to use.
-
-It will preserve the history of your commits.
-
-```bash
-git log
-commit 6634a076212fb7bac16f9525feae1e83e0f200ca
-Author: Name <Email address>
-Date:   DD-MM-YYYY
-     Revert "Add plain text to code by mistake"
-     This reverts commit a8cf7c2592273ef6a28920222a92847794275868.
-commit a8cf7c2592273ef6a28920222a92847794275868
-Author: Name <Email address>
-Date:   DD-MM-YYYY
-    Add plain text to code by mistake
-```

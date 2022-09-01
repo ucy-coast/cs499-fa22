@@ -3,6 +3,18 @@
 The purpose of this lab tutorial is to give you hands on experience with a few essential tools.
 
 
+TODO
+Git/Github
+Ansible
+HTTP benchmarking, wrk
+perf stat
+top
+mpstat
+Awk
+Gnuplot
+
+Homework: Loadbalancing
+
 ### Run a command over SSH on a single machine
 
 What if the only thing you need to do over the SSH connection is execute a single quick command? You might not want to take the separate actions of connecting and authenticating, running the command, and then disconnecting.
