@@ -64,6 +64,17 @@ img[alt~="center"] {
 # Essential Tools
 ---
 
+# Essential Tools
+
+- Version control: Git and GitHub
+- Configuration management: Ansible
+- Benchmarking: wrk
+- Performance profiling: top and perf
+- Text processing: awk
+- Plotting: gnuplot
+
+---
+
 # Git and GitHub
 
 ---
