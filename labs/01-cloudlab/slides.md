@@ -603,7 +603,7 @@ Use the `username@hostname` part from the SSH command:
 alice@amd198.utah.cloudlab.us
 ```
 
-![bg width:80% right:50% hue-rotate:355deg](../notes/connect-ssh/figures/putty-ssh-1.png)
+![bg width:80% right:50%](../notes/connect-ssh/figures/putty-ssh-1.png)
 
 ---
 
@@ -614,7 +614,7 @@ alice@amd198.utah.cloudlab.us
 ---
 
 # Linux: The Shell
-![bg width:80% right:33% hue-rotate:355deg](../notes/linux/figures/linux-connect-ssh.png)
+![bg width:80% right:33%](../notes/linux/figures/linux-connect-ssh.png)
 
 - Program that *interprets commands* and sends them to the OS
 - Provides:

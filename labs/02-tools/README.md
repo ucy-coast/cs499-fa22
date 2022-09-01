@@ -100,7 +100,7 @@ Since the default branch name for new repositories created on GitHub is now `mai
 git branch -M main
 ```
 
-#### Pushing and pulling changes
+#### Pushing and fetching changes
 
 You're now setup to push changes to the remote repository:
 
@@ -113,6 +113,9 @@ If you're already setup for push as above, then the following will bring changes
 ```
 git pull
 ```
+
+What this is doing under-the-hood is running a `git fetch` and then `git merge`.
+
 
 ### Cloning an existing repository
 
@@ -235,9 +238,6 @@ We can now immediately launch Ansible to see if our setup works:
 
 ```
 $ ansible webservers -i ./hosts -m ping
-node0 | SUCCESS => {
-    "changed": false, 
-    "ping": "pong"
 node1 | SUCCESS => {
     "changed": false, 
     "ping": "pong"
@@ -660,7 +660,7 @@ amit manager account 47000
 
 In the above example, the awk command prints all the line which matches with the ‘manager’. 
 
-#### Splitting a Line Into Fields
+#### Splitting a line into fields
 
 For each record i.e line, the awk command splits the record delimited by whitespace character by default and stores it in the `$n` variables. If the line has 4 words, it will be stored in `$1`, `$2`, `$3` and `$4` respectively. Also, `$0` represents the whole line.  
 
@@ -717,7 +717,7 @@ produces the following output
 
 ```
 Percentile (%) Latency (us)
-50 175.1
+50 175
 75 214
 90 257
 99 351
@@ -736,7 +736,9 @@ sudo apt -y install gnuplot
 
 Here is a very simplified gnuplot code we can use to plot the latency distribution produced by `wrk` and `awk`:
 
+```
 set terminal dumb size 120, 30; set autoscale; plot '-' using 1:2 with lines notitle
+```
 
 Let's break this down:
 
