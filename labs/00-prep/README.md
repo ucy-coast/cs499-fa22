@@ -35,6 +35,19 @@ Once your registration request gets approved, you can start using CloudLab to cr
 
 In the meantime, you might want to read through the [CloudLab manual](https://docs.cloudlab.us/) to learn more about it, the chapter on Basic Concepts is particularly helpful.
 
+### Manage Account
+
+Once your registration request gets approved, you can further manage your account through the CloudLab Portal. For example, we recommend you change the default shell to bash:
+
+1. Log into the CloudLab portal. Once you are logged in: Click on your username (top right), select `Manage Account`. 
+
+<figure>
+  <p align="center"><img src="figures/cloudlab-profile-menu.png"></p>
+  <figcaption><p align="center">Figure. Registering for a CloudLab account.</p></figcaption>
+</figure>
+
+2. Change `Default Shell` to bash, and click `Save`.
+
 ## Join GitHub
 You can use [GitHub](https://github.com/), a [Git](https://git-scm.com/) repository hosting service, for storing, managing, tracking and controlling changes to your code.
 In order to gain access to GitHub you need to register for an account. To do so:
