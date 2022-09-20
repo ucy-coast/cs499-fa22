@@ -9,6 +9,8 @@ If you have an account at one of its federated facilities, like [GENI](http://ww
 
 If not, you can register an account by visiting http://cloudlab.us and creating an account using your University of Cyprus email address as login. Note that an SSH public key is required to access the nodes CloudLab assigns to you; if you are unfamiliar with creating and using ssh keypairs, we recommend taking a look at the [guide to generating SSH keys](../notes/connect-ssh/generate.md).
 
+### Registering Account
+
 To register an account:
 
 1. Start by visiting https://www.cloudlab.us/ in your browser and clicking the **Request an Account** button.
@@ -35,7 +37,7 @@ Once your registration request gets approved, you can start using CloudLab to cr
 
 In the meantime, you might want to read through the [CloudLab manual](https://docs.cloudlab.us/) to learn more about it, the chapter on Basic Concepts is particularly helpful.
 
-### Manage Account
+### Managing Account
 
 Once your registration request gets approved, you can further manage your account through the CloudLab Portal. For example, we recommend you change the default shell to bash:
 
