@@ -43,7 +43,7 @@ Once your registration request gets approved, you can further manage your accoun
 
 <figure>
   <p align="center"><img src="figures/cloudlab-profile-menu.png"></p>
-  <figcaption><p align="center">Figure. Registering for a CloudLab account.</p></figcaption>
+  <figcaption><p align="center">Figure. Manage Account.</p></figcaption>
 </figure>
 
 2. Change `Default Shell` to bash, and click `Save`.
