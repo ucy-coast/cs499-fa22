@@ -74,7 +74,7 @@ ok /path/to/wordutil 0.009s
     ```
   - Παράδειγμα χρήσης: Για τη μέτρηση του εύρους ζώνης ανάγνωσης:
     ```
-    $ fio −−randrepeat=1 −−ioengine=libaio −−direct=1 \ −−gtod reduce=1 −−name=fiotest −−filename=testfio \ −−bs=4k −−iodepth=64 −−size=1G −−readwrite=read
+    $ fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=testfio --bs=4k --iodepth=64 --size=1G --readwrite=read
     ```
 
 Για να βρείτε τις προδιαγραφές της μονάδας δίσκου, συμπεριλαμβανομένης της χωρητικότητας του δίσκου, μπορείτε να χρησιμοποιήσετε το εργαλείο `hdparm`.
@@ -112,7 +112,7 @@ ok /path/to/wordutil 0.009s
     ```
   - Παράδειγμα χρήσης: Για τη μέτρηση του εύρους ζώνης δικτύου μεταξύ `node0` και `node1`, εκτελέστε το iperf σε λειτουργία διακομιστή στο `node0`:
     ```
-    $ iperf −s −i 1 −w 4M−u
+    $ iperf −s −i 1 −w 4M −u
     ```
     και εκτελέστε το iperf σε λειτουργία πελάτη στο `node1`:
     ```
