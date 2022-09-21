@@ -113,7 +113,7 @@ To measure network latency and bandwidth between two machines in the cluster, yo
     ```
   - Example usage: To measure bandwidth between `node0` and `node1`, run iperf in server mode on `node0`:
     ```
-    $ iperf −s −i 1 −w 4M−u
+    $ iperf −s −i 1 −w 4M -u
     ```
     and run iperf in client mode on `node1`:
     ```
