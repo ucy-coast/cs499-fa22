@@ -74,7 +74,7 @@ To measure latency and bandwidth to the local disk, you can use the following to
     ```
   - Example usage: To measure read bandwidth:
     ```
-    $ fio −−randrepeat=1 −−ioengine=libaio −−direct=1 \ −−gtod reduce=1 −−name=fiotest −−filename=testfio \ −−bs=4k −−iodepth=64 −−size=1G −−readwrite=read
+    $ fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=testfio --bs=4k --iodepth=64 --size=1G --readwrite=read
     ```
 
 To find disk drive specification, including disk capacity, you can use the `hdparm` tool.
