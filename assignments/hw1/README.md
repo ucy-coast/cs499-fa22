@@ -41,7 +41,7 @@ ok      /path/to/wordutil   0.009s
 
 ## Part 2: Storage Hierarchy Measurements
 
-In this part you will study the memory and storage hierarchy in the data center. You will measure and report the latency, bandwidth, and capacity characteristics of a cluster of machines of your choice in CloudLab. It is recommended that you use one of the following machine types: `c220g1`, `c240g1`, `c220g2`, `c240g2`, `c220g5`, `c240g5` (from CloudLab Wisconsin). 
+In this part you will study the memory and storage hierarchy in the data center. You will measure and report the latency, bandwidth, and capacity characteristics of a cluster of machines of your choice in CloudLab. 
 
 Present your results in a graph similar to the one we examined in class and comment. You will submit your answers for this assignment as files in the directory `hierarchy`. Add your comments and observations in the text file `README.md` under `hierarchy`. Add your graph as a new pdf or image file. 
 
