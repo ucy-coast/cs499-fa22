@@ -514,6 +514,6 @@ Shut down the frontend server:
 Shut down the index server and cleanup the partitions:
 
 ```
-./frontend.sh -i hosts-1-index stop
-./frontend.sh -i hosts-1-index clear
+./index.sh -i hosts-1-index stop
+./index.sh -i hosts-1-index clear
 ```

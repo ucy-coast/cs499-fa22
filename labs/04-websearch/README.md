@@ -215,8 +215,8 @@ To shut down the frontend server:
 To shut down the index server and cleanup the partitions:
 
 ```
-./frontend.sh -i hosts-1-index stop
-./frontend.sh -i hosts-1-index clear
+./index.sh -i hosts-1-index stop
+./index.sh -i hosts-1-index clear
 ```
 
 ## Module 2: Web Search Characterization
