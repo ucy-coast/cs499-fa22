@@ -81,7 +81,7 @@ ssh -p 22 alice@ms1019.utah.cloudlab.us
 Clone the git repository and change into the scripts directory. 
 
 ```
-git clone https://github.com/ucy-coast/cs499.git
+git clone https://github.com/ucy-coast/cs499-fa22.git
 cd labs/websearch/scripts
 ```
 
