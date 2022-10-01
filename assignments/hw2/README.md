@@ -37,12 +37,7 @@ You should run `wrk` on different machines than the ones running the load balanc
 
 Repeat the previous exercise for HotelMap.
 
-## Part 2: HotelMap
-
-In this part you will extend the HotelMap web service to allow users query hotels within a specified area.
-(Hint: Extend the method `searchHandler` to support receiving latitude (`lat`) and longitude (`lon`) from URL query parameters similarly to how it currently receives in and out dates.)
-
-## Part 3: Web Search Characterization
+## Part 2: Web Search Characterization
 
 In this part, you will conduct a characterization and analysis of the web search benchmark. This includes, query and latency analysis, benchmark throughput and response time characterization.
 
@@ -68,7 +63,7 @@ Report and comment how the performance (throughput and response latency) scales 
 
 You should compare the response times of a setup using partitioning with two index servers working on different index parts and a configuration without partitioning. The queries are executed sequentially one at a time.
 
-For this part, you should configure the web search benchmark to run a single frontend server and a two index servers using the configuration file `hosts-2-index`.
+For this part, you should configure the web search benchmark to run a single frontend server and a two index servers using the configuration file `hosts-2-index`, and four index servers using a new configuration file `host-4-index` that you need to write.
 
 Report and comment how partitioning affects performance (throughput and response latency).
 
@@ -76,11 +71,10 @@ Report and comment how partitioning affects performance (throughput and response
 
 | Problem    | Points |
 |------------|--------|
-| Q1.1       | 20     |
-| Q1.2       | 10     |
-| Q2         | 30     |
-| Q3.1       | 20     |
-| Q3.2       | 20     |
+| Q1.1       | 30     |
+| Q1.2       | 20     |
+| Q2.1       | 25     |
+| Q2.2       | 25     |
 
 ### Submission
 
