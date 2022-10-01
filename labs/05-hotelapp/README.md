@@ -166,11 +166,11 @@ Hello, world!
 
 Now that we are done going over the basics of HTTP, let's create the Hotel Map web application in Go. We already provide you with a partial implementation, which you will complete over the course of this tutorial.
 
-Please go ahead and clone the hotel app repository locally like so:
+Please change your working directory to the directory that contains the partial implementation
+like so:
 
 ```
-$ git clone git@github.com:ucy-coast/hotel-app.git
-$ cd hotel-app
+$ cd labs/05-hotelapp/hotelapp
 ```
 
 The application directory structure follows the [Standard Go Project Layout](https://github.com/golang-standards/project-layout). It's not an official standard defined by the core Go dev team; however, it is a set of common historical and emerging project layout patterns in the Go ecosystem. 
@@ -241,18 +241,21 @@ https://developers.google.com/maps/documentation/javascript/datalayer
 
 You will now implement the code to handle the `/hotels` route and serve the public index.html file.
 
-In services/frontend/frontend.go, fill in the `Run` function so that it looks like the following:
+In internal/frontend/frontend.go, fill in the `Run` function so that it looks like the following:
 
 ```
 func (s *Frontend) Run(port int) error {
-	http.Handle("/", http.FileServer(http.Dir("services/frontend/static")))
-	http.Handle("/hotels", http.HandlerFunc(s.searchHandler))
-	return http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+  mux := http.NewServeMux()
+  mux.Handle("/", http.FileServer(http.Dir("internal/frontend/static")))
+  mux.Handle("/hotels", http.HandlerFunc(s.searchHandler))
+
+  log.Printf("Start Frontend server. Addr: %s:%d\n", s.addr, s.port)
+  return http.ListenAndServe(fmt.Sprintf(":%d", s.port), mux)
 }
 ```
 
-This code is very similar to the simple hello world web server you implemented above. In this code, we are using the `http.Handle` method to define some simple routing for our application. It is important to note that calling `http.Handle` on the "/" pattern will act as a catch-all route, so we define that route last. 
-The `http.FileServer` function builds an `http.Handler` that will serve an entire directory of files and figure out which file to serve based on the request path. We told the FileServer to serve the application "public" folder specifying the path relative to the current working directory with `http.Dir("services/frontend/static")`.
+This code is very similar to the simple hello world web server you implemented above. In this code, we are using the `mux.Handle` method to define some simple routing for our application. It is important to note that calling `mux.Handle` on the "/" pattern will act as a catch-all route, so we define that route last. 
+The `http.FileServer` function builds an `http.Handler` that will serve an entire directory of files and figure out which file to serve based on the request path. We told the FileServer to serve the application "public" folder specifying the path relative to the current working directory with `http.Dir("internal/frontend/static")`.
 Finally, it calls `http.ListenAndServe` to start the server, specifying that the server should listen on a given `port`.
 
 Next, you will implement the searchHandler. In internal/frontend/frontend.go, fill in the `searchHandler` function so that it looks like the following:
@@ -336,13 +339,14 @@ Build the Hotel Map service:
 
 ```
 $ go mod init github.com/ucy-coast/hotel-app
+$ go mod tidy
 $ go build -tags memdb ./cmd/...
 ```
 
 Run the Hotel Map application:
 
 ```
-$ ./cmd/mono/mono
+$ ./mono
 ```
 
 ## Testing
@@ -350,10 +354,10 @@ $ ./cmd/mono/mono
 Test the Hotel Map by visiting the URL: 
 
 ```
-http://node0-public:8080
+http://<node0-public>:8080
 ```
 
-where you replace `node0-public` with the public DNS of `node0`, which you can get from the CloudLab dashboard.
+where you replace `<node0-public>` with the public DNS of `node0`, which you can get from the CloudLab dashboard.
 
 The application should present a web page that plots hotel locations on a Google map:
 
@@ -365,7 +369,7 @@ The application should present a web page that plots hotel locations on a Google
 As another test, you can try sending a search query directly to the web application:
 
 ```
-http://node0-public:8080/hotels?inDate=2015-04-09&outDate=2015-04-10&lat=37.7749&lon=-122.4194
+http://<node0-public>:8080/hotels?inDate=2015-04-09&outDate=2015-04-10&lat=37.7749&lon=-122.4194
 ```
 
 The web application should respond with a JSON document that lists the hotels available during the given time period.
@@ -383,7 +387,7 @@ The workload generator is an open-loop load generator; requests are sent out acc
 Let's build our workload generator. Open another terminal session to `node0`, change into the web app root directory, and run the following commands to build the benchmarking tool:
 
 ```
-$ sudo apt-get install luarocks
+$ sudo apt-get install -y luarocks
 $ sudo luarocks install luasocket
 ```
 
