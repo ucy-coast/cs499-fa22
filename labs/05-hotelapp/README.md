@@ -244,7 +244,7 @@ You will now implement the code to handle the `/hotels` route and serve the publ
 In internal/frontend/frontend.go, fill in the `Run` function so that it looks like the following:
 
 ```
-func (s *Frontend) Run(port int) error {
+func (s *Frontend) Run() error {
   mux := http.NewServeMux()
   mux.Handle("/", http.FileServer(http.Dir("internal/frontend/static")))
   mux.Handle("/hotels", http.HandlerFunc(s.searchHandler))
