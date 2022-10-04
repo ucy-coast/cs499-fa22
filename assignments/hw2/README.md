@@ -59,7 +59,7 @@ You should then perform an investigation into how the number of client threads a
 
 Report and comment how the performance (throughput and response latency) scales with the number of client threads. Measure the index server CPU utilization and report how the CPU utilization is correlated with performance.
 
-#### Index Partitioning
+### Index Partitioning
 
 You should compare the response times of a setup using partitioning with two index servers working on different index parts and a configuration without partitioning. The queries are executed sequentially one at a time.
 
