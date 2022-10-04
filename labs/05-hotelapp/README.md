@@ -223,7 +223,7 @@ Put this HTML into a file named `index.html` in the "public" folder of our appli
                 infowindow.open(map);
             });
 
-            map.data.loadGeoJson('/hotels?inDate=2015-04-09&outDate=2015-04-10');
+            map.data.loadGeoJson('/hotels?inDate=2015-04-09&outDate=2015-04-10&lat=37.7749&lon=-122.4194');
 
         }
     </script>
