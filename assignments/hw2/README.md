@@ -71,8 +71,8 @@ Report and comment how partitioning affects performance (throughput and response
 
 | Problem    | Points |
 |------------|--------|
-| Q1.1       | 30     |
-| Q1.2       | 20     |
+| Q1.1       | 25     |
+| Q1.2       | 25     |
 | Q2.1       | 25     |
 | Q2.2       | 25     |
 
