@@ -518,8 +518,8 @@ Our goal in this section will be to create an image that sandboxes our Hotel Map
 If you haven't already, please go ahead and clone the repository locally like so:
 
 ```
-$ git clone https://github.com/ucy-coast/hotel-app.git
-$ cd hotel-app
+$ git clone https://github.com/ucy-coast/cs499-fa22.git
+$ cd cs499-fa22/labs/06-docker/hotelapp
 ```
 
 > This should be cloned on the machine where you are running the docker commands and not inside a docker container.
@@ -548,6 +548,8 @@ Now, that we have the files, we can build and install the app.
 
 ```
 # install app
+RUN go mod init github.com/ucy-coast/hotel-app
+RUN go mod tidy
 RUN go install -tags ${DB} -ldflags="-s -w" ./cmd/...
 ```
 
@@ -577,7 +579,9 @@ WORKDIR /go/src/github.com/ucy-coast/hotel-app
 # copy all the files to the container
 COPY . .
 
-# install app
+# build and install app
+RUN go mod init github.com/ucy-coast/hotel-app
+RUN go mod tidy
 RUN go install -tags ${DB} -ldflags="-s -w" ./cmd/...
 
 # define the port number the container should expose
