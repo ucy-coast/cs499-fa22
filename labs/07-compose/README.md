@@ -411,7 +411,18 @@ json.NewEncoder(w).Encode(geoJSONResponse(profileResp.Hotels))
 
 ### Building Images
 
-Having completed the implementation of the `profile` service, the final step is to extend the `docker-compose.yml` file to build the `profile` service:
+Having completed the implementation of the `profile` service, the final step is to extend the `docker-compose.yml` file to build the `frontend` and `profile` service:
+
+```yaml
+  frontend:
+    build: .
+    image: hotel_app_frontend_single_node_memdb
+    entrypoint: frontend
+    container_name: 'hotel_app_frontend'
+    ports:
+      - "8080:8080"
+    restart: always
+```
 
 ```yaml
   profile:
@@ -422,6 +433,12 @@ Having completed the implementation of the `profile` service, the final step is 
     ports:
       - "8081:8081"
     restart: always
+```
+
+To ask Compose to build the `frontend` image:
+
+```
+docker-compose build frontend
 ```
 
 To ask Compose to build the `profile` image:
