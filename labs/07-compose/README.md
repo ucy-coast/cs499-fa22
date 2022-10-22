@@ -344,6 +344,9 @@ func (s *Profile) Run() error {
 	// Register our service implementation with the gRPC server
 	pb.RegisterProfileServer(srv, s)
 
+	// Register reflection service on gRPC server.
+	reflection.Register(srv)
+
 	// Listen for client requests
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", s.port))
 	if err != nil {
