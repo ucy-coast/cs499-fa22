@@ -20,7 +20,7 @@ services:
 
   search:
     build: .
-    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_search_single_node_memdb
+    image: hotel_app_search_single_node_memdb
     entrypoint: search
     container_name: 'hotel_app_search'
     ports:
@@ -29,7 +29,7 @@ services:
 
   geo:
     build: .
-    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_geo_single_node_memdb
+    image: hotel_app_geo_single_node_memdb
     container_name: 'hotel_app_geo'
     entrypoint: geo
     ports:
@@ -38,7 +38,7 @@ services:
 
   rate:
     build: .
-    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_rate_single_node_memdb
+    image: hotel_app_rate_single_node_memdb
     container_name: 'hotel_app_rate'
     entrypoint: rate
     ports:

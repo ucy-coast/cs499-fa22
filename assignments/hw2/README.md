@@ -2,7 +2,7 @@
 
 Submission Deadline: October 25, 2022
 
-This assignment comprises three parts. This is an individual assignment to be conducted individually by each student.
+This assignment comprises two parts. This is an individual assignment to be conducted individually by each student.
 
 ## Part 1: Load Balancing
 
