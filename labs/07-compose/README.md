@@ -309,16 +309,10 @@ The method is passed a context object for the RPC and the client’s `Request` p
 
 ```go
 func (s *Profile) GetProfiles(ctx context.Context, req *pb.Request) (*pb.Result, error) {
+	var err error
 	res := new(pb.Result)
-	hotels := make([]*pb.Hotel, 0)
-
-	for _, id := range hotelIds {
-		hotels = append(hotels, db.getProfile(id))
-	}
-	
-	res.Hotels = hotels
-
-	return res, nil
+	res.Hotels, err = s.dbsession.GetProfiles(req.HotelIds)
+	return res, err
 }
 ```
 
