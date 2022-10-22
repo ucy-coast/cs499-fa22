@@ -669,6 +669,8 @@ $ docker attach <containerID>
 - The container must be running
 - There can be multiple clients attached to the same container
 
+---
+
 # Detaching from non-interactive containers
 
 - **Warning**: if the container was started without `-it`...
@@ -688,6 +690,8 @@ If you just want to see the output of a container, use `docker logs`
 ```bash
 $ docker logs --tail 1 --follow <containerID>
 ```
+
+---
 
 # Restarting a container
 
@@ -1121,8 +1125,8 @@ You will:
 # Clone the Hotel Map repo
 
 ```
-$ git clone https://github.com/ucy-coast/hotel-app.git
-$ cd hotel-app
+$ git clone https://github.com/ucy-coast/cs499-fa22.git
+$ cd cs499-fa22/labs/06-docker/hotel-app
 ```
 
 ---
@@ -1132,7 +1136,7 @@ $ cd hotel-app
 ```dockerfile
 FROM golang:1.18.4
 
-# set a build-time vriable 
+# set a build-time variable 
 ARG DB=memdb
 
 # set a working directory for the app
@@ -1141,7 +1145,9 @@ WORKDIR /go/src/github.com/ucy-coast/hotel-app
 # copy all the files to the container
 COPY . .
 
-# install app
+# build and install app
+RUN go mod init github.com/ucy-coast/hotel-app
+RUN go mod tidy
 RUN go install -tags ${DB} -ldflags="-s -w" ./cmd/...
 
 # define the port number the container should expose
