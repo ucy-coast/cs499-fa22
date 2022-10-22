@@ -12,7 +12,7 @@ This tutorial takes a hands-on look at microservices using Go and Docker Compose
 
 ## Splitting HotelMap into Microservices
 
-We will split Hotel Map into five microservices and corresponding containers:
+We split Hotel Map into five microservices and corresponding containers:
 
 1. `frontend`: Exposes an HTTP server to serve the website.
 1. `search`: Finds nearby hotels available during given time periods.
@@ -29,20 +29,16 @@ The diagram below shows the interactions between the five microservices.
 
 As in the monolith app, the `frontend` serves incoming requests by glueing functionality provided by the rest of the microservices. However, communication is through remote procedure calls (RPC) instead of local function calls.
 
-Let's now have a look at the code.
+## Part 1: Deploying and Running Hotel Map Microservices with Docker Compose
 
 If you haven't already, please go ahead and clone the repository locally like so:
 
 ```
-$ git clone git@github.com:ucy-coast/hotel-app.git
-$ cd hotel-app
+$ git clone git@github.com:ucy-coast/cs499-fa22.git
+$ cd cs499-fa22/07-compose/hotelapp
 ```
 
-Checkout the branch containing the multi-container version:
-
-```
-$ git branch TBD
-```
+### Defining Services
 
 The directory contains a `docker-compose.yml` file, defined using the Docker Compose file format. 
 A Compose file is used to define how the one or more containers that make up your application are configured. 
@@ -54,7 +50,7 @@ version: "3"
 services:
   frontend:
     build: .
-    image: hotel_app_frontend_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_frontend_single_node_memdb
     entrypoint: frontend
     container_name: 'hotel_app_frontend'
     ports:
@@ -63,7 +59,7 @@ services:
 
   profile:
     build: .
-    image: hotel_app_profile_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_profile_single_node_memdb
     entrypoint: profile
     container_name: 'hotel_app_profile'
     ports:
@@ -72,7 +68,7 @@ services:
 
   search:
     build: .
-    image: hotel_app_search_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_search_single_node_memdb
     entrypoint: search
     container_name: 'hotel_app_search'
     ports:
@@ -81,7 +77,7 @@ services:
 
   geo:
     build: .
-    image: hotel_app_geo_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_geo_single_node_memdb
     container_name: 'hotel_app_geo'
     entrypoint: geo
     ports:
@@ -90,7 +86,7 @@ services:
 
   rate:
     build: .
-    image: hotel_app_rate_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_rate_single_node_memdb
     container_name: 'hotel_app_rate'
     entrypoint: rate
     ports:
@@ -112,21 +108,96 @@ services:
       restart: always
 ```
 
-The compose file defines a bunch of services each of them corresponding to one container. For each service, we can have an image statement and/or a build statement. An image statement specifies the image to start the container from. For example, we have a jaeger service that uses an existing image `jaegertracing/all-in-one:latest` from a container registry. A build statement specifies the build configuration for creating container image from source, using a Dockerfile contained in the directory indicated by the build statement. For example, for the `frontend` service, we have a `build: .`, which means the current working directory contains a Dockerfile that specifies how to build the `frontend` image. When the service specifies an image as well as a build, Docker Compose names the built image with the name specified in image. For example, for the `frontend` service, we have an `image: hotel_app_frontend_single_node_memdb` in addition to `build: .`, which means Docker Compose will name the built image as `hotel_app_frontend_single_node_memdb`.
+The compose file defines a bunch of services each of them corresponding to one container. For each service, it specifies the following:
+- `build`: Specifies the directory containing the Dockerfile that builds the profile image.
+- `image`: Specifies the image to start the container from. Since the service specifies an `image` as well as `build`, Docker Compose names the built image with the name specified in image.
+- `entrypoint`: Sets the command and parameters that will be executed first when a container is run.
+- `container_name`: Sets the actual name of the container when it runs, rather than letting Docker Compose generate it. 
+- `ports`: Exposes specified container ports.
+- `restart`: Specifies the container restart policy.
 
-The `frontend`, `search`, `geo`, `rate`, and `profile` (incomplete) services correspond to our application microservices.
+For each service, we can have an image statement and/or a build statement. An image statement specifies the image to start the container from. For example, we have a jaeger service that uses an existing image `jaegertracing/all-in-one:latest` from a container registry. A build statement specifies the build configuration for creating container image from source, using a Dockerfile contained in the directory indicated by the build statement. For example, for the `frontend` service, we have a `build: .`, which means the current working directory contains a Dockerfile that specifies how to build the `frontend` image. When the service specifies an image as well as a build, Docker Compose names the built image with the name specified in image. For example, for the `frontend` service, we have an `image: hotel_app_frontend_single_node_memdb` in addition to `build: .`, which means Docker Compose will name the built image as `hotel_app_frontend_single_node_memdb`.
+
+The `frontend`, `search`, `geo`, `rate`, and `profile` services correspond to our application microservices.
 
 The `jaeger` service creates a distributed tracing backend based on [Jaeger](https://www.jaegertracing.io/) that receives telemetry data from our microservices. 
 
+Both name of the service (`profile`) and the name of the container (`hotel_app_profile`) are usable as DNS names for inter-container communication.
+
 Once you have a Compose file, you can create and start your application with a single command `docker-compose up`.  
 
-However, before you can run the application, you need to implement it.
-The provided implementation is partially complete.
-In the remaining of this lab, you will implement the `profile` service using Go and gRPC, and extend the `frontend` to call the new microservice. 
+### Deploying and Running Services 
 
-## Implementing the `profile` microservice
+For now, we will use prebuilt images of the microservices available through DockerHub. 
 
-The code implenting each microservice is spread into two subdirectories, `/cmd` and `/internal`, following the [Standard Go Project Layout](https://github.com/golang-standards/project-layout). For the `profile` microservice, the code is split as follows:
+Define the environment variable `REGISTRY`:
+
+```
+export REGISTRY=hvolos01
+```
+
+Then, pull the images like so:
+
+```
+docker-compose pull
+```
+
+We are now ready to run our app by invoking:
+
+```
+docker-compose up
+```
+
+Compose tells Docker to start all the containers and displays aggregated logs.
+
+```
+Creating hotel_app_search ... 
+Creating hotel_app_profile ... 
+...
+Attaching to hotel_app_search, hotel_app_rate, hotel_app_geo, hotel_app_profile, hotel_app_frontend, hotel_app_jaeger
+hotel_app_search | 2022/08/04 08:48:54 Connect to geo:8083
+hotel_app_search | 2022/08/04 08:48:54 Connect to rate:8084
+hotel_app_rate | 2022/08/04 08:48:55 Start Rate server. Addr: 0.0.0.0:8084
+hotel_app_search | 2022/08/04 08:48:54 Start Search server. Addr: 0.0.0.0:8082
+...
+hotel_app_frontend | time="2022-08-04T08:49:50Z" level=info msg="searchHandler [lat: 37.7749, lon: -122.4194, inDate: 2015-04-09, outDate: 2015-04-10]"
+...
+```
+
+### Tracing Requests
+
+While logs are exciting and fun, no one really enjoys reading them. The `jaeger` container exposes a web dashboard that you can use to view gRPC requests between services. To view the dashboard, open a web browser and connect to `node0` on port 16686:
+
+```
+http://node0:16686/search
+```
+
+Remember, the `nodeX` aliases are valid only on the nodes themselves, so you can either use the externally visible IP address or URL of your node available from the CloudLab dashboard.
+
+<figure>
+  <p align="center"><img src="figures/jaeger-dashboard.png" width="60%"></p>
+  <figcaption><p align="center">Figure. Jaeger dashboard</p></figcaption>
+</figure>
+
+To view a trace, select a service and then click **Find Traces**. 
+
+### Shutting Down the App
+
+When we interrupt Compose (with ^C), it will politely ask the Docker Engine to stop the app.
+The Docker Engine will send a TERM signal to the containers.
+If the containers do not exit in a timely manner, the Engine sends a KILL signal.
+So, stop the application by hitting ^C.
+Some containers exit immediately, others take longer. 
+The containers that do not handle SIGTERM end up being killed after a 10s timeout. 
+If we are very impatient, we can hit ^C a second time!
+
+## Part 2: Implementing the `profile` microservice
+
+In the remaining of this lab, you will build your own images for the various microservices. We provide you with a partial implementation that you will need to complete. 
+
+You will implement the `profile` service using Go and gRPC, and extend the `frontend` to call the new microservice. 
+
+The code implementing each microservice is spread into two subdirectories, `/cmd` and `/internal`, following the [Standard Go Project Layout](https://github.com/golang-standards/project-layout). For the `profile` microservice, the code is split as follows:
 - `/cmd/profile`: Contains the main microservice code.
 - `/internal/profile`: Contains the private library code.
 
@@ -341,9 +412,9 @@ As you can see, we call the method on the stub we got earlier. In our method par
 json.NewEncoder(w).Encode(geoJSONResponse(profileResp.Hotels))
 ```
 
-### Deploying and Running Hotel Map with Docker Compose
+### Building Images
 
-Having completed the multi-container implementation of our Hotel Map app, the final step is to extend the `docker-compose.yml` file to define the `profile` service:
+Having completed the implementation of the `profile` service, the final step is to extend the `docker-compose.yml` file to build the `profile` service:
 
 ```yaml
   profile:
@@ -356,66 +427,16 @@ Having completed the multi-container implementation of our Hotel Map app, the fi
     restart: always
 ```
 
-- `build`: Specifies the directory containing the Dockerfile that builds the profile image.
-- `image`: Specifies the image to start the container from. Since the service specifies an `image` as well as `build`, Docker Compose names the built image with the name specified in image.
-- `entrypoint`: Sets the command and parameters that will be executed first when a container is run.
-- `container_name`: Sets the actual name of the container when it runs, rather than letting Docker Compose generate it. 
-- `ports`: Exposes specified container ports.
-- `restart`: Specifies the container restart policy.
+To ask Compose to build the `profile` image:
 
-Both name of the service (`profile`) and the name of the container (`hotel_app_profile`) are usable as DNS names for inter-container communication.
+```
+docker-compose build profile
+```
+
+### Running Services
 
 We are now ready to run our app by invoking:
 
 ```
 docker-compose up
 ```
-
-To force Compose to also build and recreate all containers, use the `--build` and `--force-recreate` flag:
-
-```
-docker-compose up --build --force-recreate
-```
-
-Compose tells Docker to build all container images (pulling the corresponding base images), then starts all containers, and displays aggregated logs.
-
-```
-Creating hotel_app_search ... 
-Creating hotel_app_profile ... 
-...
-Attaching to hotel_app_search, hotel_app_rate, hotel_app_geo, hotel_app_profile, hotel_app_frontend, hotel_app_jaeger
-hotel_app_search | 2022/08/04 08:48:54 Connect to geo:8083
-hotel_app_search | 2022/08/04 08:48:54 Connect to rate:8084
-hotel_app_rate | 2022/08/04 08:48:55 Start Rate server. Addr: 0.0.0.0:8084
-hotel_app_search | 2022/08/04 08:48:54 Start Search server. Addr: 0.0.0.0:8082
-...
-hotel_app_frontend | time="2022-08-04T08:49:50Z" level=info msg="searchHandler [lat: 37.7749, lon: -122.4194, inDate: 2015-04-09, outDate: 2015-04-10]"
-...
-```
-
-### Request Tracing
-
-While logs are exciting and fun, no one really enjoys reading them. The `jaeger` container exposes a web dashboard that you can use to view gRPC requests between services. To view the dashboard, open a web browser and connect to `node0` on port 16686:
-
-```
-http://node0:16686/search
-```
-
-Remember, the `nodeX` aliases are valid only on the nodes themselves, so you can either use the externally visible IP address or URL of your node available from the CloudLab dashboard.
-
-<figure>
-  <p align="center"><img src="figures/jaeger-dashboard.png" width="60%"></p>
-  <figcaption><p align="center">Figure. Jaeger dashboard</p></figcaption>
-</figure>
-
-To view a trace, select a service and then click **Find Traces**. 
-
-### Shutting Down the App
-
-When we interrupt Compose (with ^C), it will politely ask the Docker Engine to stop the app.
-The Docker Engine will send a TERM signal to the containers.
-If the containers do not exit in a timely manner, the Engine sends a KILL signal.
-So, stop the application by hitting ^C.
-Some containers exit immediately, others take longer. 
-The containers that do not handle SIGTERM end up being killed after a 10s timeout. 
-If we are very impatient, we can hit ^C a second time!

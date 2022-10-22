@@ -171,14 +171,8 @@ Microservices
 - Clone the repository on `node0`:
 
   ```bash
-  $ git clone git@github.com:ucy-coast/hotel-app.git
-  $ cd hotel-app
-  ```
-
-- Checkout the branch containing the multi-container version:
-
-  ```
-  $ git branch TBD
+  $ git clone git@github.com:ucy-coast/cs499-fa22.git
+  $ cd cs499-fa22/07-compose/hotelapp
   ```
 
 ---
@@ -226,7 +220,7 @@ version: "3"
 services:
   frontend:
     build: .
-    image: hotel_app_frontend_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_frontend_single_node_memdb
     entrypoint: frontend
     container_name: 'hotel_app_frontend'
     ports:
@@ -235,7 +229,7 @@ services:
 
   profile:
     build: .
-    image: hotel_app_profile_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_profile_single_node_memdb
     entrypoint: profile
     container_name: 'hotel_app_profile'
     ports:
@@ -244,7 +238,7 @@ services:
 
   search:
     build: .
-    image: hotel_app_search_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_search_single_node_memdb
     entrypoint: search
     container_name: 'hotel_app_search'
     ports:
@@ -253,7 +247,7 @@ services:
 
   geo:
     build: .
-    image: hotel_app_geo_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_geo_single_node_memdb
     container_name: 'hotel_app_geo'
     entrypoint: geo
     ports:
@@ -262,7 +256,7 @@ services:
 
   rate:
     build: .
-    image: hotel_app_rate_single_node_memdb
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_rate_single_node_memdb
     container_name: 'hotel_app_rate'
     entrypoint: rate
     ports:
@@ -300,6 +294,102 @@ services:
 </div>
 
 </div>
+
+---
+
+# Hotel Map docker-compose.yml: `profile` service
+
+<div class="columns">
+
+<div>
+
+```
+  profile:
+    build: .
+    image: ${REGISTRY-127.0.0.1:5000}/hotel_app_profile_single_node_memdb
+    entrypoint: profile
+    container_name: 'hotel_app_profile'
+    ports:
+      - "8081:8081"
+```
+
+</div>
+
+<div>
+
+- `build`: Specifies the directory containing the Dockerfile 
+- `image`: Specifies the image to start the container from. Names the built image with the specified name.
+- `entrypoint`: Sets the command and parameters that will be executed first when a container runs
+- `container_name`: Sets the actual name of the container when it runs
+- `ports`: exposes specified container ports
+
+</div>
+
+</div>
+
+---
+
+# Fetching Pre-built Images
+
+Define the environment variable `REGISTRY`:
+
+```
+export REGISTRY=hvolos01
+```
+
+Pull the images:
+
+```
+docker-compose pull
+```
+
+---
+
+# Running Hotel Map Microservices
+
+Run our app:
+
+```
+$ docker-compose up
+```
+
+```
+Creating hotel_app_search ... 
+Creating hotel_app_profile ... 
+...
+Attaching to hotel_app_search, hotel_app_rate, hotel_app_geo, hotel_app_profile, hotel_app_frontend, hotel_app_jaeger
+hotel_app_search | 2022/08/04 08:48:54 Connect to geo:8083
+hotel_app_search | 2022/08/04 08:48:54 Connect to rate:8084
+hotel_app_rate | 2022/08/04 08:48:55 Start Rate server. Addr: 0.0.0.0:8084
+hotel_app_search | 2022/08/04 08:48:54 Start Search server. Addr: 0.0.0.0:8082
+...
+hotel_app_frontend | time="2022-08-04T08:49:50Z" level=info msg="searchHandler [lat: 37.7749, lon: -122.4194, inDate: 2015-04-09, outDate: 2015-04-10]"
+...
+```
+
+---
+
+# Visiting Hotel Map
+
+```
+http://c220g1-030621.wisc.cloudlab.us:8888
+```
+
+<span style="font-size: 24px">Note: `c220g1-030621.wisc.cloudlab` is the public URL of `node0`</span>
+
+![h:400 center](figures/hotel-map.png)
+
+---
+
+# Tracing gRPC requests between services with Jaeger
+
+```
+http://c220g1-030621.wisc.cloudlab.us:16686/search
+```
+
+<span style="font-size: 24px">Note: `c220g1-030621.wisc.cloudlab` is the public URL of `node0`</span>
+
+![w:900 center](figures/jaeger-dashboard.png)
 
 ---
 
@@ -585,57 +675,3 @@ if err != nil {
 </div>
 
 </div>
-
----
-
-# Running Hotel Map
-
-Run our app:
-
-```
-$ docker-compose up
-```
-
-Build and recreate all containers:
-
-```
-$ docker-compose up --build --force-recreate
-```
-
-```
-Creating hotel_app_search ... 
-Creating hotel_app_profile ... 
-...
-Attaching to hotel_app_search, hotel_app_rate, hotel_app_geo, hotel_app_profile, hotel_app_frontend, hotel_app_jaeger
-hotel_app_search | 2022/08/04 08:48:54 Connect to geo:8083
-hotel_app_search | 2022/08/04 08:48:54 Connect to rate:8084
-hotel_app_rate | 2022/08/04 08:48:55 Start Rate server. Addr: 0.0.0.0:8084
-hotel_app_search | 2022/08/04 08:48:54 Start Search server. Addr: 0.0.0.0:8082
-...
-hotel_app_frontend | time="2022-08-04T08:49:50Z" level=info msg="searchHandler [lat: 37.7749, lon: -122.4194, inDate: 2015-04-09, outDate: 2015-04-10]"
-...
-```
-
----
-
-# Visiting Hotel Map
-
-```
-http://c220g1-030621.wisc.cloudlab.us:8888
-```
-
-<span style="font-size: 24px">Note: `c220g1-030621.wisc.cloudlab` is the public URL of `node0`</span>
-
-![h:400 center](figures/hotel-map.png)
-
----
-
-# Tracing gRPC requests between services with Jaeger
-
-```
-http://c220g1-030621.wisc.cloudlab.us:16686/search
-```
-
-<span style="font-size: 24px">Note: `c220g1-030621.wisc.cloudlab` is the public URL of `node0`</span>
-
-![w:900 center](figures/jaeger-dashboard.png)
