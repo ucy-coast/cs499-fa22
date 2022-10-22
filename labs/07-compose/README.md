@@ -35,7 +35,7 @@ If you haven't already, please go ahead and clone the repository locally like so
 
 ```
 $ git clone git@github.com:ucy-coast/cs499-fa22.git
-$ cd cs499-fa22/07-compose/hotelapp
+$ cd cs499-fa22/labs/07-compose/hotelapp
 ```
 
 ### Defining Services
