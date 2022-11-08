@@ -2,7 +2,7 @@
 
 Submission Deadline: November 15, 2022
 
-This assignment comprises three parts. This is a group assignment to be conducted in teams of two students.
+This assignment comprises two parts. This is a group assignment to be conducted in teams of two students.
 
 ## Part 1: Implement Hotel Map Microservices
 
@@ -32,19 +32,12 @@ Evaluate the throughput and latency performance of the microservices-based imple
 
 Using jaeger, [trace the RPC call chains](https://github.com/ucy-coast/cs499-fa22/tree/main/labs/07-compose#tracing-requests) and identify any bottlenecks. 
 
-## Part 3: Scale Hotel Map Microservices
-
-Use [Docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/) to [run multiple instances](https://docs.docker.com/engine/swarm/swarm-tutorial/scale-service/) of each microservice. 
-
-Evaluate how throughput and latency performance scales with increasing number of microservice instances.
-
 ## Point Distribution
 
 | Problem    | Points |
 |------------|--------|
 | Q1         | 50     |
-| Q2         | 30     |
-| Q3         | 20     |
+| Q2         | 50     |
 
 ### Submission
 
