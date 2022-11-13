@@ -1,6 +1,6 @@
 # Lab: Data Services
 
-This lab tutorial will introduce you to two popular data services, the MongoDB document-oriented database and the Memcached memory-caching system. 
+This lab tutorial will introduce you to the MongoDB document-oriented database.
 
 ## Background
 
@@ -23,12 +23,6 @@ Documents can be nested to express hierarchical relationships and to store struc
   <figcaption><p align="center">Figure. MongoDB Document</p></figcaption>
 </figure>
 
-## Memcached
-
-Memcached is a general-purpose distributed memory caching system. It is often used to speed up dynamic database-driven websites by caching data and objects in RAM to reduce the number of times an external data source (such as a database or API) must be read.
-
-Memcached's APIs provide a very large hash table distributed across multiple machines. When the table is full, subsequent inserts cause older data to be purged in least recently used order. Applications using Memcached typically layer requests and additions into RAM before falling back on a slower backing store, such as a database.
-
 ## Storing Hotel Map Data with MongoDB
 
 So far, data for each of the Hotel Map services is stored in JSON flat files under the `data/` directory. In reality, each of the services would store its data in a persistent datastore service, such as MongoDB.
@@ -39,25 +33,8 @@ In this section, you will extend the `profile` service in Hotel Map to store its
 
 As a first step, you will need to extend the `profile` service to interact with MongoDB. To help you, we provide you with a partial implementation in `internal/profile/mongodb.go` that you can fill in to accomplish this task.
 
-Package [`mgo`](https://pkg.go.dev/gopkg.in/mgo.v2) offers a rich MongoDB driver for Go that you can use to establish a connection to a MongoDB backend server. 
+#### Data type definitions
 
-Usage of the driver revolves around the concept of sessions. To get started, add the following code to the `NewDatabaseSession` function in `internal/profile/mongodb.go` to obtain a session. 
-
-```go
-session, err := mgo.Dial(db_addr)
-if err != nil {
-	log.Fatal(err)
-}
-log.Info("New session successfull...")
-
-return &DatabaseSession{
-	MongoSession: session,
-}
-```
-
-The `Dial` function will establish one or more connections with the cluster of servers defined by the `db_addr` parameter. From then on, the cluster may be queried to retrieve documents.
-
-You will then extend the `GetProfiles` function to return hotel profiles given a list of hotel IDs. 
 The profile data for each hotel is stored in the `hotels` collection in the `profile-db` database using the following composite types:
 
 ```go
@@ -80,6 +57,66 @@ type Address struct {
 	Lon          float32 `bson:"lon"`
 }
 ```
+
+Since we use the Protocol Buffers language specification to define the data types, we can re-use the `.proto` defined code for the MongoDB calls also.
+
+From the application home directory, run the following command:
+
+```
+protoc --go_out=plugins=grpc:. internal/profile/proto/profile.proto
+```
+
+Running this command generates the `internal/profile/proto/profile.pb.go` file, which contains all the protocol buffer code to populate, serialize, and retrieve request and response message types.
+
+When you look at the `profile.pb.go` file, you will notice that the structs the protoc generates have json tags for each field, but there aren't bson tags needed by MongoDB.
+
+If you want to use the same data type, you'll have to modify the code generation. You can use something like [gogoprotobuf](https://github.com/gogo/protobuf) which has an extension to add tags. This should give you bson tags in your structs. You could also post-process your generated files, either with regular expressions or something more complicated involving the go abstract syntax tree. For this lab, we will simply post-process the file manually ourselves. Open `profile.pb.go` in your favorite editor, and replace the json tags with bson tags in the `type Hotel struct`, `type Address struct`, and `type Image struct`. For example:
+
+```
+type Hotel struct {
+	Id          string   `protobuf:"bytes,1,opt,name=id" bson:"id,omitempty"`
+	Name        string   `protobuf:"bytes,2,opt,name=name" bson:"name,omitempty"`
+	PhoneNumber string   `protobuf:"bytes,3,opt,name=phoneNumber" bson:"phoneNumber,omitempty"`
+	Description string   `protobuf:"bytes,4,opt,name=description" bson:"description,omitempty"`
+	Address     *Address `protobuf:"bytes,5,opt,name=address" bson:"address,omitempty"`
+	Images      []*Image `protobuf:"bytes,6,rep,name=images" bson:"images,omitempty"`
+}
+```
+
+should become
+
+```
+type Hotel struct {
+	Id          string   `protobuf:"bytes,1,opt,name=id" bson:"id,omitempty"`
+	Name        string   `protobuf:"bytes,2,opt,name=name" bson:"name,omitempty"`
+	PhoneNumber string   `protobuf:"bytes,3,opt,name=phoneNumber" bson:"phoneNumber,omitempty"`
+	Description string   `protobuf:"bytes,4,opt,name=description" bson:"description,omitempty"`
+	Address     *Address `protobuf:"bytes,5,opt,name=address" bson:"address,omitempty"`
+	Images      []*Image `protobuf:"bytes,6,rep,name=images" bson:"images,omitempty"`
+}
+```
+
+#### MongoDB driver
+
+Package [`mgo`](https://pkg.go.dev/gopkg.in/mgo.v2) offers a rich MongoDB driver for Go that you can use to establish a connection to a MongoDB backend server. 
+
+Usage of the driver revolves around the concept of sessions. To get started, add the following code to the `NewDatabaseSession` function in `internal/profile/mongodb.go` to obtain a session. 
+
+```go
+session, err := mgo.Dial(db_addr)
+if err != nil {
+	log.Fatal(err)
+}
+log.Info("New session successfull...")
+
+return &DatabaseSession{
+	MongoSession: session,
+}
+```
+
+The `Dial` function will establish one or more connections with the cluster of servers defined by the `db_addr` parameter. From then on, the cluster may be queried to retrieve documents.
+
+You will then extend the `GetProfiles` function to return hotel profiles given a list of hotel IDs. 
 
 Add the following code at the beginning of the `GetProfiles` function:
 
@@ -120,14 +157,28 @@ Having completed the implementation of our `profile` service, we will now set up
 
 #### Docker Compose 
 
-We provide you with a `docker-compose-mongodb.yml` file that defines a new service `mongodb-profile` and a named volume `profile`:
+We provide you with a `docker-compose.yml` file that defines a new service `mongodb-profile` and a named volume `profile`:
 
 ```yaml
 services:
   frontend:
   ...
+  profile:
+    build:
+      context: .
+      args:
+        - DB=mongodb
+    image: hotel_app_profile_single_node_mongodb
+    container_name: 'hotel_app_profile'
+    entrypoint: profile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb-profile
+    restart: always
+  ...
   mongodb-profile:
-    image: mongo
+    image: mongo:4.4.6
     container_name: 'hotel_app_profile_mongo'
     ports:
       - "27018:27017"
@@ -143,7 +194,41 @@ The `mongodb-profile` service spins a MongoDB server inside a container.
 
 The container uses a named volume `profile` to persist the container directory `/data/db`. Named volumes can persist data after we restart or remove a container. Also, they're accessible by other containers. These volumes are created inside the `/var/lib/docker/volume` local host directory.
 
-#### Kubernetes
+Having completed the implementation of the `profile` service, the final step is to build the `profile` image:
+
+To ask Compose to build the `profile` image:
+
+```
+docker-compose build profile
+```
+
+For the rest of the services, we will use the prebuilt images available through DockerHub.
+
+Define the environment variable `REGISTRY`:
+
+```
+export REGISTRY=hvolos01
+```
+
+Then, pull the images like so:
+
+```
+docker-compose pull frontend search geo rate jaeger mongodb-profile
+```
+
+We are now ready to run our app by invoking:
+
+```
+docker-compose up
+```
+
+To stop containers and remove containers, networks, volumes, and images created by `up`.
+
+```
+docker-compose down --volumes
+```
+
+#### Kubernetes (Optional)
 
 We provide you with YAML manifests that define a MongoDB deployment, expose the deployment through a service, and create a persistent volume for use by the MongoDB deployment.
 
@@ -206,104 +291,3 @@ For example, to show all documents in collection `hotels` use below listed code:
 ```
 mongo --eval "db.hotels.find().pretty()" profile-db
 ```
-
-## Caching Hotel Map Data with Memcached
-
-In the first part of this lab, we stepped through how to store data in a MongoDB database. In this, the second part of this lab, we're going to learn how to use Memcached to alleviate the pressure of the MongoDB database and improve the response speed of the application.
-
-### Using Memcached as Query Cache 
-
-Memcached provides a simple set of operations (set, get, and delete) that makes it attractive as an elemental component in a large-scale distributed system. 
-
-We will rely on Memcached to lighten the read load on our MongoDB database. In particular, we will use Memcached as a demand-filled look-aside cache as shown in the Figure below. 
-
-<figure>
-  <p align="center"><img src="figures/memcached-look-aside-cache.png" width="80%"></p>
-  <figcaption><p align="center">Figure. Memcached as a demand-filled look-aside cache. The left half illustrates the read path for a web server on a cache miss. The right half illustrates the write path.</p></figcaption>
-</figure>
-
-When a web application needs data, it first requests the value from Memcached by providing a string key. If the item addressed by that key is not cached, the web application retrieves the data from the database or other backend service and populates the cache with the key-value pair. 
-
-For write requests, the web server issues query statements to the database and then sends a delete request to Memcached that invalidates any stale data. Web applications typically choose to delete cached data instead of updating it because deletes are idempotent. Memcached is not the authoritative source of the data and is therefore allowed to evict cached data.
-
-### Memcached Client
-
-As a first step, you will need to extend the `profile` service to interact with Memcached. 
-
-Package [`memcache`](https://pkg.go.dev/github.com/bradfitz/gomemcache/memcache) provides a client for the memcached cache server.
-
-To get started, add the following code to the `NewDatabaseSession` function in `internal/profile/mongodb.go` to establish a connection. 
-
-```go
-memc_client := memcache.New(*memc_addr)
-memc_client.Timeout = time.Second * 2
-memc_client.MaxIdleConns = 512
-```
-
-Add the following code to the `GetProfiles` function:
-
-```go
-for _, i := range hotelIds {
-	// first check memcached
-	item, err := s.MemcClient.Get(i)
-	if err == nil {
-		// memcached hit
-		hotel_prof := new(pb.Hotel)
-		if err = json.Unmarshal(item.Value, hotel_prof); err != nil {
-			log.Warn(err)
-		}
-		hotels = append(hotels, hotel_prof)
-
-	} else if err == memcache.ErrCacheMiss {
-			// memcached miss, set up mongo connection
-			session := s.MongoSession.Copy()
-			defer session.Close()
-			c := session.DB("profile-db").C("hotels")
-			...
-			// write to memcached
-			err = s.MemcClient.Set(&memcache.Item{Key: i, Value: []byte(memc_str)})
-			if err != nil {
-				log.Warn("MMC error: ", err)
-			}
-		} else {
-			fmt.Printf("Memcached error = %s\n", err)
-			panic(err)
-		}
-}
-```
-
-In this code, you:
-- Query the memcached server for each hotel by calling `Get`. 
-- In case of a memcached miss, retrieve the item from MongoDB and write it into Memcached by calling `Set`. 
-
-### Memcached Service
-
-Having completed the implementation of our `profile` service, we will now set up a Memcached service that the `profile` service can use. Depending on how you deploy the new Hotel Map, you can create the MongoDB service either through Docker Compose or Kubernetes.
-
-#### Docker Compose 
-
-We provide you with a `docker-compose-memc.yml` file that defines a new service `memcached-profile`:
-
-```yaml
-services:
-  frontend:
-  ...
-  memcached-profile:
-    image: memcached
-    container_name: 'hotel_app_profile_memc'
-    restart: always
-    environment:
-      - MEMCACHED_CACHE_SIZE=128
-      - MEMCACHED_THREADS=2
-    logging:
-      options:
-        max-size: 50m
-```
-
-The `mongodb-profile` service spins a Memcached server inside a container. 
-
-The Memcached server uses 2 threads and sets aside `MEMCACHED_CACHE_SIZE` MB of RAM for the cache.
-
-#### Kubernetes
-
-We provide you with YAML manifests that define a Memcached deployment and expose the deployment through a service.
